@@ -7,3 +7,4 @@ export 'src/fields/generic_input_field.dart';
 export 'src/fields/number_field.dart';
 export 'src/fields/password_field.dart';
 export 'src/fields/text_field.dart';
+export 'src/dialogs/dialog_message.dart';
