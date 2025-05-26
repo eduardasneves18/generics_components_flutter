@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'generic_input_field.dart';
 
-class YBPasswordField extends YBGenericInputField {
-  const YBPasswordField({
+class PasswordField extends GenericInputField {
+  const PasswordField({
     Key? key,
     required String hint,
     required TextEditingController controller,
@@ -41,10 +41,10 @@ class YBPasswordField extends YBGenericInputField {
   );
 
   @override
-  State<YBPasswordField> createState() => _YBPasswordFieldState();
+  State<PasswordField> createState() => _PasswordFieldState();
 }
 
-class _YBPasswordFieldState extends YBGenericInputFieldState<YBPasswordField> {
+class _PasswordFieldState extends GenericInputFieldState<PasswordField> {
   bool showPassword = true;
 
   @override

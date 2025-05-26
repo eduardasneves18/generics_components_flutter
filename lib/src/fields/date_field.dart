@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class YBDateField extends StatefulWidget {
+class DateField extends StatefulWidget {
   final Size sizeScreen;
   final IconData? icon;
   final Color? iconColor;
@@ -20,7 +20,7 @@ class YBDateField extends StatefulWidget {
   final TextEditingController controller;
   final ValueChanged<DateTime>? onDateSelected;
 
-  const YBDateField({
+  const DateField({
     Key? key,
     required this.sizeScreen,
     this.icon,
@@ -39,10 +39,10 @@ class YBDateField extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _YBDateFieldState createState() => _YBDateFieldState();
+  _DateFieldState createState() => _DateFieldState();
 }
 
-class _YBDateFieldState extends State<YBDateField> {
+class _DateFieldState extends State<DateField> {
   TextEditingController get controller => widget.controller;
 
   Future<void> _selectDate(BuildContext context) async {

@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-class YBDropdownField extends StatefulWidget {
+class DropdownField extends StatefulWidget {
   final Function(String?) onChanged;
   final Size sizeScreen;
   final String hint;
@@ -18,7 +18,7 @@ class YBDropdownField extends StatefulWidget {
   final String? value; // <-- NOVO: valor externo (selecionado)
   final Color? dropdownColor;
 
-  const YBDropdownField({
+  const DropdownField({
     Key? key,
     required this.onChanged,
     required this.hint,
@@ -37,10 +37,10 @@ class YBDropdownField extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _YBDropDownFieldState createState() => _YBDropDownFieldState();
+  _DropDownFieldState createState() => _DropDownFieldState();
 }
 
-class _YBDropDownFieldState extends State<YBDropdownField> {
+class _DropDownFieldState extends State<DropdownField> {
   final List<String> tiposTransacao = ['Transferência', 'Pagamento', 'Recebimento'];
 
   @override

@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 // import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
-class YBMaskTextField extends StatefulWidget {
+class MaskTextField extends StatefulWidget {
   final Size? sizeScreen;
   final IconData? icon;
   final Color? iconColor;
@@ -21,7 +21,7 @@ class YBMaskTextField extends StatefulWidget {
   final TextEditingController? controller;
   final String? mask;
 
-  const YBMaskTextField({
+  const MaskTextField({
     Key? key,
     this.sizeScreen,
     this.icon,
@@ -41,10 +41,10 @@ class YBMaskTextField extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _YBMaskTextFieldState createState() => _YBMaskTextFieldState();
+  _MaskTextFieldState createState() => _MaskTextFieldState();
 }
 
-class _YBMaskTextFieldState extends State<YBMaskTextField> {
+class _MaskTextFieldState extends State<MaskTextField> {
   bool showSecurityPassword = true;
 
   Widget build(BuildContext context) {

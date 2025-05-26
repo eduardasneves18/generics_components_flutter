@@ -7,16 +7,16 @@ import '../fields/dropdown_field.dart';
 import '../fields/number_field.dart';
 import '../fields/text_field.dart';
 
-class YbTransactionsFilter extends StatefulWidget {
+class TransactionsFilter extends StatefulWidget {
   final Function(List<Map<String, dynamic>>) onFilterApplied;
 
-  YbTransactionsFilter({required this.onFilterApplied});
+  TransactionsFilter({required this.onFilterApplied});
 
   @override
-  _YbTransactionsFilterState createState() => _YbTransactionsFilterState();
+  _TransactionsFilterState createState() => _TransactionsFilterState();
 }
 
-class _YbTransactionsFilterState extends State<YbTransactionsFilter> {
+class _TransactionsFilterState extends State<TransactionsFilter> {
   String? _selectedTipoTransacao;
   String? _selectedDestinatario;
   double? _selectedValor;
@@ -63,7 +63,7 @@ class _YbTransactionsFilterState extends State<YbTransactionsFilter> {
               Center(
                   child: Text("Filtro de transações", style: TextStyle(fontSize: 20))),
               SizedBox(height: 8),
-              YBTextField(
+              TextField(
                 sizeScreen: size,
                 controller: _destinatarioController,
                 hint: 'Digite o destinatário',
@@ -78,7 +78,7 @@ class _YbTransactionsFilterState extends State<YbTransactionsFilter> {
                   });
                 },
               ),
-              YBDropdownField(
+              DropdownField(
                 onChanged: (value) {
                   setState(() {
                     _selectedTipoTransacao = value;
@@ -95,7 +95,7 @@ class _YbTransactionsFilterState extends State<YbTransactionsFilter> {
               ),
 
               // Valor
-              YBNumberField(
+              NumberField(
                 sizeScreen: size,
                 controller: _valorController,
                 hint: 'Digite o valor',
@@ -113,7 +113,7 @@ class _YbTransactionsFilterState extends State<YbTransactionsFilter> {
               ),
 
               // Data
-              YBDateField(
+              DateField(
                 sizeScreen: size,
                 controller: _dataController,
                 hint: 'Selecione a data',

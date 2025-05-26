@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-abstract class YBGenericInputField extends StatefulWidget {
+abstract class GenericInputField extends StatefulWidget {
   final String hint;
   final Size? sizeScreen;
   final IconData? icon;
@@ -20,7 +20,7 @@ abstract class YBGenericInputField extends StatefulWidget {
 
   final TextEditingController controller;
 
-  const YBGenericInputField({
+  const GenericInputField({
     Key? key,
     required this.hint,
     this.sizeScreen,
@@ -41,10 +41,10 @@ abstract class YBGenericInputField extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<YBGenericInputField> createState();
+  State<GenericInputField> createState();
 }
 
-abstract class YBGenericInputFieldState<T extends YBGenericInputField> extends State<T> {
+abstract class GenericInputFieldState<T extends GenericInputField> extends State<T> {
   TextEditingController get controller => widget.controller;
 
   Color? get borderColor => widget.borderColor;

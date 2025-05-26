@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class YBNumberField extends StatefulWidget {
+class NumberField extends StatefulWidget {
   final Size sizeScreen;
   final IconData? icon;
   final Color? iconColor;
@@ -18,7 +18,7 @@ class YBNumberField extends StatefulWidget {
   final TextEditingController controller;
   final Function(String)? onChanged;
 
-  const YBNumberField({
+  const NumberField({
     Key? key,
     required this.sizeScreen,
     this.icon,
@@ -37,10 +37,10 @@ class YBNumberField extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _YBNumberFieldState createState() => _YBNumberFieldState();
+  _NumberFieldState createState() => _NumberFieldState();
 }
 
-class _YBNumberFieldState extends State<YBNumberField> {
+class _NumberFieldState extends State<NumberField> {
   TextEditingController get controller => widget.controller;
 
   @override

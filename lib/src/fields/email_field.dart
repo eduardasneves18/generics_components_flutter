@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class YBEmailField extends StatefulWidget {
+class EmailField extends StatefulWidget {
   final Size sizeScreen;
   final IconData? icon;
   final Color? iconColor;
@@ -17,7 +17,7 @@ class YBEmailField extends StatefulWidget {
   final Color? labelColor;
   final TextEditingController controller;
 
-  const YBEmailField({
+  const EmailField({
     Key? key,
     required this.sizeScreen,
     this.icon,
@@ -36,10 +36,10 @@ class YBEmailField extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _YBEmailFieldState createState() => _YBEmailFieldState();
+  _EmailFieldState createState() => _EmailFieldState();
 }
 
-class _YBEmailFieldState extends State<YBEmailField> {
+class _EmailFieldState extends State<EmailField> {
   bool showSecurityPassword = true;
 
   Widget build(BuildContext context) {
