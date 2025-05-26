@@ -63,7 +63,7 @@ class _TransactionsFilterState extends State<TransactionsFilter> {
               Center(
                   child: Text("Filtro de transações", style: TextStyle(fontSize: 20))),
               SizedBox(height: 8),
-              TextField(
+              TextFields(
                 sizeScreen: size,
                 controller: _destinatarioController,
                 hint: 'Digite o destinatário',

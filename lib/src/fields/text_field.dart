@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class TextField extends StatefulWidget {
+class TextFields extends StatefulWidget {
   final Size sizeScreen;
   final IconData? icon;
   final Color? iconColor;
@@ -18,7 +18,7 @@ class TextField extends StatefulWidget {
   final TextEditingController controller;
   final ValueChanged<String>? onChanged;
 
-  const TextField({
+  const TextFields({
     Key? key,
     required this.sizeScreen,
     this.icon,
@@ -38,10 +38,10 @@ class TextField extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _TextFieldState createState() => _TextFieldState();
+  _TextFieldsState createState() => _TextFieldsState();
 }
 
-class _TextFieldState extends State<TextField> {
+class _TextFieldsState extends State<TextFields> {
   bool showSecurityPassword = true;
 
   @override
