@@ -1,144 +1,111 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../services/firebase/firebase.dart';
-import '../../services/firebase/transactions/transactions_firebase.dart';
-import '../fields/date_field.dart';
-import '../fields/dropdown_field.dart';
-import '../fields/number_field.dart';
-import '../fields/text_field.dart';
 
-class TransactionsFilter extends StatefulWidget {
-  final Function(List<Map<String, dynamic>>) onFilterApplied;
+import '../fields/filter_fields.dart';
 
-  TransactionsFilter({required this.onFilterApplied});
+class GenericFilterModal extends StatefulWidget {
+  final String title;
+  final List<FilterFieldConfig> fields;
+  final Function(Map<String, dynamic>) onApply;
+
+  const GenericFilterModal({
+    Key? key,
+    required this.title,
+    required this.fields,
+    required this.onApply,
+  }) : super(key: key);
 
   @override
-  _TransactionsFilterState createState() => _TransactionsFilterState();
+  State<GenericFilterModal> createState() => _GenericFilterModalState();
 }
 
-class _TransactionsFilterState extends State<TransactionsFilter> {
-  String? _selectedTipoTransacao;
-  String? _selectedDestinatario;
-  double? _selectedValor;
-  DateTime? _selectedData;
-  BuildContext? _context;
-
-  final _destinatarioController = TextEditingController();
-  final _valorController = TextEditingController();
-  final _dataController = TextEditingController();
-
-  void _applyFilter() {
-    TransactionsFirebaseService firebaseService = TransactionsFirebaseService();
-
-    String? destinatario = _selectedDestinatario?.isEmpty ?? true ? null : _selectedDestinatario;
-    double? valor = _selectedValor == null || _selectedValor == 0 ? null : _selectedValor;
-    String? data = _selectedData == null ? null : DateFormat('dd/MM/yyyy').format(_selectedData!);
-
-    firebaseService.getTransactionsFiltered(
-      tipoTransacao: _selectedTipoTransacao,
-      destinatario: destinatario,
-      valor: valor,
-      data: data,
-    ).then((transactions) {
-      widget.onFilterApplied(transactions);
-      Navigator.pop(_context!);
-    });
-  }
+class _GenericFilterModalState extends State<GenericFilterModal> {
+  final Map<String, dynamic> _values = {};
 
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    _context = context;
 
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(18.0),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                  child: Text("Filtro de transações", style: TextStyle(fontSize: 20))),
-              SizedBox(height: 8),
-              TextFields(
-                sizeScreen: size,
-                controller: _destinatarioController,
-                hint: 'Digite o destinatário',
-                labelText: 'Destinatário',
-                borderColor: Colors.black,
-                textColor: Colors.black,
-                fillColor: Colors.white,
-                labelColor: Colors.black,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedDestinatario = value;
-                  });
-                },
-              ),
-              DropdownField(
-                onChanged: (value) {
-                  setState(() {
-                    _selectedTipoTransacao = value;
-                  });
-                },
-                hint: 'Tipo transação',
-                borderColor: Colors.black,
-                textColor: Colors.black,
-                fillColor: Colors.transparent,
-                labelColor: Colors.black,
-                labelText: 'Tipo transação',
-                sizeScreen: size,
-                iconColor: Colors.black,
-              ),
-
-              // Valor
-              NumberField(
-                sizeScreen: size,
-                controller: _valorController,
-                hint: 'Digite o valor',
-                labelText: 'Valor',
-                borderColor: Colors.black,
-                textColor: Colors.black,
-                fillColor: Colors.white,
-                labelColor: Colors.black,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedValor =
-                    value.isEmpty ? null : double.tryParse(value);
-                  });
-                },
-              ),
-
-              // Data
-              DateField(
-                sizeScreen: size,
-                controller: _dataController,
-                hint: 'Selecione a data',
-                labelText: 'Data',
-                borderColor: Colors.black,
-                textColor: Colors.black,
-                fillColor: Colors.white,
-                labelColor: Colors.black,
-              ),
-
-              SizedBox(height: 16),
-
-              Center(
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF004D61),
-                    foregroundColor: Colors.grey[100],
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(widget.title, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          const SizedBox(height: 16),
+          ...widget.fields.map((field) {
+            switch (field.type) {
+              case FilterFieldType.text:
+                final controller = field.controller ?? TextEditingController();
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: TextField(
+                    controller: controller,
+                    decoration: InputDecoration(labelText: field.label, border: OutlineInputBorder()),
+                    onChanged: (value) => _values[field.key] = value,
                   ),
-                  onPressed: _applyFilter,
-                  child: Text("Aplicar Filtro"),
-                ),
-              ),
-            ],
+                );
+              case FilterFieldType.number:
+                final controller = field.controller ?? TextEditingController();
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: TextField(
+                    controller: controller,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(labelText: field.label, border: OutlineInputBorder()),
+                    onChanged: (value) => _values[field.key] = double.tryParse(value),
+                  ),
+                );
+              case FilterFieldType.date:
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: InkWell(
+                    onTap: () async {
+                      final picked = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(2000),
+                        lastDate: DateTime(2100),
+                      );
+                      if (picked != null) {
+                        final formatted = DateFormat('dd/MM/yyyy').format(picked);
+                        setState(() {
+                          _values[field.key] = formatted;
+                        });
+                      }
+                    },
+                    child: InputDecorator(
+                      decoration: InputDecoration(
+                        labelText: field.label,
+                        border: OutlineInputBorder(),
+                      ),
+                      child: Text(_values[field.key] ?? 'Selecionar'),
+                    ),
+                  ),
+                );
+              case FilterFieldType.dropdown:
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: DropdownButtonFormField<String>(
+                    decoration: InputDecoration(labelText: field.label, border: OutlineInputBorder()),
+                    items: field.options!
+                        .map((opt) => DropdownMenuItem(value: opt, child: Text(opt)))
+                        .toList(),
+                    onChanged: (value) => _values[field.key] = value,
+                  ),
+                );
+            }
+          }),
+          const SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: () {
+              widget.onApply(_values);
+              Navigator.pop(context);
+            },
+            style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF004D61)),
+            child: const Text('Aplicar Filtro', style: TextStyle(color: Colors.white)),
           ),
-        ),
+        ],
       ),
     );
   }
