@@ -14,7 +14,7 @@ class MenuItem {
 
 class GenericDrawerMenu extends StatelessWidget {
   final String headerTitle;
-  final List<MenuItem> menuItems;
+  final List<MenuItem> menuItems;  // <-- aqui está a correção
 
   const GenericDrawerMenu({
     Key? key,
