@@ -48,8 +48,8 @@ class GenericDrawerMenu extends StatelessWidget {
             ),
           ),
           ...menuItems.map((item) => ListTile(
-            leading: Icon(item.icon, color: Colors.white),
-            title: Text(item.title, style: const TextStyle(color: Colors.white)),
+            leading: Icon(item.icon, color: Colors.black),
+            title: Text(item.title, style: const TextStyle(color: Colors.black)),
             onTap: item.onTap,
           )),
         ],
