@@ -64,12 +64,15 @@ class _DropdownFieldState extends State<DropdownField> {
         style: widget.textType ?? TextStyle(color: textColor),
         icon: Icon(Icons.arrow_drop_down, color: iconColor),
         decoration: InputDecoration(
+          floatingLabelBehavior: FloatingLabelBehavior.auto,
+          labelText: widget.hint,
           filled: true,
           fillColor: fillColor,
           hintText: !hasValue ? widget.hint : null,
           hintStyle: TextStyle(color: hintColor),
-          labelText: hasValue ? (widget.labelText ?? widget.hint) : null,
-          labelStyle: TextStyle(color: labelColor),
+          labelStyle: TextStyle(
+            color: hintColor.withOpacity(0.8), // cor quando NÃO está focado
+          ),
           floatingLabelStyle: TextStyle(
           color: labelColor,
           fontWeight: FontWeight.bold,
