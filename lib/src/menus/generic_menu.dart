@@ -14,45 +14,64 @@ class MenuItem {
 
 class GenericDrawerMenu extends StatelessWidget {
   final String headerTitle;
-  final List<MenuItem> menuItems;  // <-- aqui está a correção
+  final List<MenuItem> menuItems;
+
+  final Color headerTextColor;
+  final Color menuItemTextColor;
+  final Color iconColor;
+  final Color backgroundColor;
+  final Color? headerBackgroundColor;
 
   const GenericDrawerMenu({
     Key? key,
     this.headerTitle = 'Menu',
     required this.menuItems,
+    this.headerTextColor = Colors.white,
+    this.menuItemTextColor = Colors.black,
+    this.iconColor = Colors.black,
+    this.backgroundColor = Colors.white,
+    this.headerBackgroundColor,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          DrawerHeader(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
-                colors: [
-                  Color(0xFF0B0B0B),
-                  Color(0xFF151515),
-                ],
+      child: Container(
+        color: backgroundColor,
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: headerBackgroundColor != null
+                  ? BoxDecoration(color: headerBackgroundColor)
+                  : const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [
+                    Color(0xFF0B0B0B),
+                    Color(0xFF151515),
+                  ],
+                ),
+              ),
+              child: Text(
+                headerTitle,
+                style: TextStyle(
+                  color: headerTextColor,
+                  fontSize: 24,
+                ),
               ),
             ),
-            child: Text(
-              headerTitle,
-              style: const TextStyle(
-                color: Colors.yellow,
-                fontSize: 24,
+            ...menuItems.map((item) => ListTile(
+              leading: Icon(item.icon, color: iconColor),
+              title: Text(
+                item.title,
+                style: TextStyle(color: menuItemTextColor),
               ),
-            ),
-          ),
-          ...menuItems.map((item) => ListTile(
-            leading: Icon(item.icon, color: Colors.black),
-            title: Text(item.title, style: const TextStyle(color: Colors.black)),
-            onTap: item.onTap,
-          )),
-        ],
+              onTap: item.onTap,
+            )),
+          ],
+        ),
       ),
     );
   }
