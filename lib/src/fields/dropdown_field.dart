@@ -89,8 +89,8 @@ class _DropdownFieldState extends State<DropdownField> {
               ? Icon(widget.icon, color: iconColor, size: width * 0.06)
               : null,
           contentPadding: EdgeInsets.symmetric(
-            horizontal: width * 0.02,
-            vertical: width * 0.04,
+            horizontal: width * 0.03,
+            vertical: width * 0.03,
           ),
         ),
         items: widget.opcoesDeSelecao.map((opcao) {

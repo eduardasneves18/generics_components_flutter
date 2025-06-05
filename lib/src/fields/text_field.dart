@@ -4,15 +4,15 @@ class TextFields extends StatefulWidget {
   final Size sizeScreen;
   final IconData? icon;
   final Color? iconColor;
-  final String hint; // será usado como labelText
-  final Color? hintColor; // cor inicial da label (sem foco)
+  final String hint;
+  final Color? hintColor;
   final bool? security;
   final Color? fillColor;
   final TextInputType? textType;
   final Color? cursorColor;
   final Color? borderColor;
   final Color? textColor;
-  final Color? labelColor; // cor da label com foco
+  final Color? labelColor;
   final TextEditingController controller;
   final ValueChanged<String>? onChanged;
 
