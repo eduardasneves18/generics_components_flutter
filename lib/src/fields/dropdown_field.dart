@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class DropdownField extends StatefulWidget {
-  final Function(String?) onChanged;
+  final Function(String?)? onChanged;
   final Size sizeScreen;
   final String hint;
   final List<String> opcoesDeSelecao;
