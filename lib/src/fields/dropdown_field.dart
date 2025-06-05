@@ -1,11 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DropdownField extends StatefulWidget {
-  final Function(String?)? onChanged;
+  final Function(String?) onChanged;
   final Size sizeScreen;
   final String hint;
-  final List<String> opcoesDeSelecao;
   final IconData? icon;
   final Color? iconColor;
   final Color? hintColor;
@@ -17,6 +15,7 @@ class DropdownField extends StatefulWidget {
   final Color? labelColor;
   final String? value;
   final Color? dropdownColor;
+  final List<String> opcoesDeSelecao;
 
   const DropdownField({
     Key? key,
@@ -45,11 +44,10 @@ class _DropdownFieldState extends State<DropdownField> {
   @override
   Widget build(BuildContext context) {
     final width = widget.sizeScreen.width;
-
     final Color borderColor = widget.borderColor ?? Theme.of(context).primaryColor;
     final Color textColor = widget.textColor ?? Theme.of(context).primaryColor;
-    final Color hintColor = widget.hintColor ?? Colors.grey;
-    final Color iconColor = widget.iconColor ?? Colors.grey;
+    final Color hintColor = widget.hintColor ?? Colors.grey[500]!;
+    final Color iconColor = widget.iconColor ?? Colors.grey[500]!;
     final Color fillColor = widget.fillColor ?? Colors.white;
     final Color dropdownColor = widget.dropdownColor ?? Colors.white;
     final Color labelColor = widget.labelColor ?? Colors.black;
@@ -66,13 +64,13 @@ class _DropdownFieldState extends State<DropdownField> {
         style: widget.textType ?? TextStyle(color: textColor),
         icon: Icon(Icons.arrow_drop_down, color: iconColor),
         decoration: InputDecoration(
-          labelText: hasValue ? widget.labelText ?? widget.hint : null,
-          labelStyle: TextStyle(color: hasValue ? labelColor : hintColor.withOpacity(0.8)),
-          floatingLabelStyle: TextStyle(color: labelColor, fontWeight: FontWeight.bold),
-          hintText: !hasValue ? widget.hint : null,
-          hintStyle: TextStyle(color: hintColor.withOpacity(0.6)),
           filled: true,
           fillColor: fillColor,
+          hintText: !hasValue ? widget.hint : null,
+          hintStyle: TextStyle(color: hintColor),
+          labelText: hasValue ? (widget.labelText ?? widget.hint) : null,
+          labelStyle: TextStyle(color: labelColor),
+          floatingLabelStyle: TextStyle(color: labelColor, fontWeight: FontWeight.bold),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: borderColor, width: 1),
             borderRadius: BorderRadius.circular(8),
@@ -84,7 +82,7 @@ class _DropdownFieldState extends State<DropdownField> {
           prefixIcon: widget.icon != null
               ? Icon(widget.icon, color: iconColor, size: width * 0.06)
               : null,
-          contentPadding: EdgeInsets.symmetric(horizontal: width * 0.02, vertical: width * 0.015),
+          contentPadding: EdgeInsets.symmetric(horizontal: width * 0.02, vertical: width * 0.04),
         ),
         items: widget.opcoesDeSelecao.map((opcao) {
           return DropdownMenuItem<String>(
