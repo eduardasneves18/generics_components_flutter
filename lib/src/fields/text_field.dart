@@ -50,6 +50,7 @@ class _TextFieldsState extends State<TextFields> {
     final TextInputType keyboardType = widget.textType ?? TextInputType.text;
     final TextStyle hintStyle = TextStyle(color: widget.hintColor ?? Colors.grey[500]);
     final Color? iconColor = widget.iconColor ?? Colors.grey[500];
+    final Color labelColor = widget.labelColor ?? Colors.grey;
 
     return Container(
       height: width * 0.14,
@@ -59,16 +60,20 @@ class _TextFieldsState extends State<TextFields> {
       ),
       child: TextFormField(
         controller: widget.controller,
-        style: TextStyle(color: textColor),
+        style: TextStyle(color: textColor), // <-- cor do texto digitado
         cursorColor: cursorColor,
         keyboardType: keyboardType,
         onChanged: widget.onChanged,
         obscureText: widget.security ?? false,
         decoration: InputDecoration(
-          floatingLabelBehavior: FloatingLabelBehavior.auto, // <- ESSENCIAL
-          labelText: widget.hint, // Usamos `hint` como `labelText`
+          floatingLabelBehavior: FloatingLabelBehavior.auto,
+          labelText: widget.hint,
           labelStyle: TextStyle(
-            color: widget.labelColor ?? Colors.grey[500],
+            color: labelColor.withOpacity(0.7), // cor da label sem foco
+          ),
+          floatingLabelStyle: TextStyle(
+            color: labelColor, // cor da label com foco
+            fontWeight: FontWeight.bold,
           ),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: borderColor, width: 1),
