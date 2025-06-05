@@ -50,7 +50,7 @@ class _TextFieldsState extends State<TextFields> {
     final TextInputType keyboardType = widget.textType ?? TextInputType.text;
     final Color? iconColor = widget.iconColor ?? Colors.grey[500];
     final Color labelColor = widget.labelColor ?? Colors.grey;
-    final Color hintColor = widget.hintColor ?? Colors.grey;
+    final Color hintColor = widget.hintColor ?? Colors.grey[500]!;
 
     return Container(
       height: width * 0.14,
@@ -67,7 +67,7 @@ class _TextFieldsState extends State<TextFields> {
         obscureText: widget.security ?? false,
         decoration: InputDecoration(
           floatingLabelBehavior: FloatingLabelBehavior.auto,
-          labelText: widget.labelText, // Label flutuante
+          labelText: widget.labelText ?? widget.hint,
           labelStyle: TextStyle(
             color: labelColor.withOpacity(0.7),
           ),
@@ -75,7 +75,7 @@ class _TextFieldsState extends State<TextFields> {
             color: labelColor,
             fontWeight: FontWeight.bold,
           ),
-          hintText: widget.hint, // Dica dentro do campo
+          hintText: widget.hint,
           hintStyle: TextStyle(
             color: hintColor,
           ),
@@ -88,7 +88,7 @@ class _TextFieldsState extends State<TextFields> {
             borderRadius: const BorderRadius.all(Radius.circular(8.0)),
           ),
           filled: true,
-          fillColor: widget.fillColor ?? Colors.transparent,
+          fillColor: widget.fillColor ?? Colors.white,
           prefixIcon: widget.icon != null
               ? Icon(widget.icon, color: iconColor, size: width * 0.06)
               : null,
