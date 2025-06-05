@@ -44,19 +44,21 @@ class _DropdownFieldState extends State<DropdownField> {
   @override
   Widget build(BuildContext context) {
     final width = widget.sizeScreen.width;
-    final Color borderColor = widget.borderColor ?? Theme.of(context).primaryColor;
-    final Color textColor = widget.textColor ?? Theme.of(context).primaryColor;
-    final Color hintColor = widget.hintColor ?? Colors.grey[500]!;
-    final Color iconColor = widget.iconColor ?? Colors.grey[500]!;
-    final Color fillColor = widget.fillColor ?? Colors.white;
-    final Color dropdownColor = widget.dropdownColor ?? Colors.white;
-    final Color labelColor = widget.labelColor ?? Colors.black;
 
-    final bool hasValue = widget.value != null && widget.value!.isNotEmpty;
+    final borderColor = widget.borderColor ?? Theme.of(context).primaryColor;
+    final textColor = widget.textColor ?? Theme.of(context).primaryColor;
+    final hintColor = widget.hintColor ?? Colors.grey[500]!;
+    final iconColor = widget.iconColor ?? Colors.grey[500]!;
+    final fillColor = widget.fillColor ?? Colors.white;
+    final dropdownColor = widget.dropdownColor ?? Colors.white;
+    final labelColor = widget.labelColor ?? Colors.black;
 
     return Container(
       height: width * 0.14,
-      margin: EdgeInsets.symmetric(horizontal: width * 0.03, vertical: width * 0.03),
+      margin: EdgeInsets.symmetric(
+        horizontal: width * 0.03,
+        vertical: width * 0.03,
+      ),
       child: DropdownButtonFormField<String>(
         value: widget.value,
         onChanged: widget.onChanged,
@@ -66,17 +68,13 @@ class _DropdownFieldState extends State<DropdownField> {
         decoration: InputDecoration(
           floatingLabelBehavior: FloatingLabelBehavior.auto,
           labelText: widget.hint,
-          filled: true,
-          fillColor: fillColor,
-          hintText: !hasValue ? widget.hint : null,
-          hintStyle: TextStyle(color: hintColor),
           labelStyle: TextStyle(
-            color: hintColor.withOpacity(0.8), // cor quando NÃO está focado
+            color: hintColor.withOpacity(0.8),
           ),
           floatingLabelStyle: TextStyle(
-          color: labelColor,
-          fontWeight: FontWeight.bold,
-        ),
+            color: labelColor,
+            fontWeight: FontWeight.bold,
+          ),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: borderColor, width: 1),
             borderRadius: BorderRadius.circular(8),
@@ -85,10 +83,15 @@ class _DropdownFieldState extends State<DropdownField> {
             borderSide: BorderSide(color: borderColor, width: 2),
             borderRadius: BorderRadius.circular(8),
           ),
+          filled: true,
+          fillColor: fillColor,
           prefixIcon: widget.icon != null
               ? Icon(widget.icon, color: iconColor, size: width * 0.06)
               : null,
-          contentPadding: EdgeInsets.symmetric(horizontal: width * 0.02, vertical: width * 0.04),
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: width * 0.02,
+            vertical: width * 0.04,
+          ),
         ),
         items: widget.opcoesDeSelecao.map((opcao) {
           return DropdownMenuItem<String>(
