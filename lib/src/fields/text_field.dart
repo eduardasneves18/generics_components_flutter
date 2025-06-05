@@ -48,9 +48,9 @@ class _TextFieldsState extends State<TextFields> {
     final Color textColor = widget.textColor ?? Theme.of(context).primaryColor;
     final Color cursorColor = widget.cursorColor ?? Theme.of(context).primaryColor;
     final TextInputType keyboardType = widget.textType ?? TextInputType.text;
-    final TextStyle hintStyle = TextStyle(color: widget.hintColor ?? Colors.grey[500]);
     final Color? iconColor = widget.iconColor ?? Colors.grey[500];
     final Color labelColor = widget.labelColor ?? Colors.grey;
+    final Color hintColor = widget.hintColor ?? Colors.grey;
 
     return Container(
       height: width * 0.14,
@@ -60,20 +60,24 @@ class _TextFieldsState extends State<TextFields> {
       ),
       child: TextFormField(
         controller: widget.controller,
-        style: TextStyle(color: textColor), // <-- cor do texto digitado
+        style: TextStyle(color: textColor),
         cursorColor: cursorColor,
         keyboardType: keyboardType,
         onChanged: widget.onChanged,
         obscureText: widget.security ?? false,
         decoration: InputDecoration(
           floatingLabelBehavior: FloatingLabelBehavior.auto,
-          labelText: widget.hint,
+          labelText: widget.labelText, // Label flutuante
           labelStyle: TextStyle(
-            color: labelColor.withOpacity(0.7), // cor da label sem foco
+            color: labelColor.withOpacity(0.7),
           ),
           floatingLabelStyle: TextStyle(
-            color: labelColor, // cor da label com foco
+            color: labelColor,
             fontWeight: FontWeight.bold,
+          ),
+          hintText: widget.hint, // Dica dentro do campo
+          hintStyle: TextStyle(
+            color: hintColor,
           ),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: borderColor, width: 1),
@@ -84,7 +88,7 @@ class _TextFieldsState extends State<TextFields> {
             borderRadius: const BorderRadius.all(Radius.circular(8.0)),
           ),
           filled: true,
-          fillColor: widget.fillColor ?? Colors.white,
+          fillColor: widget.fillColor ?? Colors.transparent,
           prefixIcon: widget.icon != null
               ? Icon(widget.icon, color: iconColor, size: width * 0.06)
               : null,
