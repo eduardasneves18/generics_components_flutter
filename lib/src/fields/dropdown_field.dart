@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DropdownField extends StatefulWidget {
@@ -53,6 +54,8 @@ class _DropdownFieldState extends State<DropdownField> {
     final Color dropdownColor = widget.dropdownColor ?? Colors.white;
     final Color labelColor = widget.labelColor ?? Colors.black;
 
+    final bool hasValue = widget.value != null && widget.value!.isNotEmpty;
+
     return Container(
       height: width * 0.14,
       margin: EdgeInsets.symmetric(horizontal: width * 0.03, vertical: width * 0.03),
@@ -63,11 +66,10 @@ class _DropdownFieldState extends State<DropdownField> {
         style: widget.textType ?? TextStyle(color: textColor),
         icon: Icon(Icons.arrow_drop_down, color: iconColor),
         decoration: InputDecoration(
-          floatingLabelBehavior: FloatingLabelBehavior.auto,
-          labelText: widget.hint,
-          labelStyle: TextStyle(color: hintColor.withOpacity(0.8)),
+          labelText: hasValue ? widget.labelText ?? widget.hint : null,
+          labelStyle: TextStyle(color: hasValue ? labelColor : hintColor.withOpacity(0.8)),
           floatingLabelStyle: TextStyle(color: labelColor, fontWeight: FontWeight.bold),
-          hintText: widget.hint,
+          hintText: !hasValue ? widget.hint : null,
           hintStyle: TextStyle(color: hintColor.withOpacity(0.6)),
           filled: true,
           fillColor: fillColor,
