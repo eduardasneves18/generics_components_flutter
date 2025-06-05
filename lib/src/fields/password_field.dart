@@ -51,43 +51,59 @@ class _PasswordFieldState extends GenericInputFieldState<PasswordField> {
   Widget build(BuildContext context) {
     final width = widget.sizeScreen?.width ?? MediaQuery.of(context).size.width;
 
+    final borderColor = widget.borderColor ?? Theme.of(context).primaryColor;
+    final textColor = widget.textColor ?? Theme.of(context).primaryColor;
+    final cursorColor = widget.cursorColor ?? Theme.of(context).primaryColor;
+    final iconColor = widget.iconColor ?? Colors.grey[500];
+    final labelColor = widget.labelColor ?? Colors.green;
+    final hintColor = widget.hintColor ?? Colors.grey;
+
     return Container(
       height: width * 0.14,
       margin: EdgeInsets.symmetric(horizontal: width * 0.03, vertical: width * 0.03),
       child: TextFormField(
         controller: widget.controller,
         autofocus: false,
-        obscureText: showPassword,
-        cursorColor: widget.cursorColor ?? Theme.of(context).primaryColor,
-        style: TextStyle(color: widget.textColor ?? Theme.of(context).primaryColor),
-        keyboardType: widget.textType,
+        obscureText: widget.security == true ? showPassword : false,
+        cursorColor: cursorColor,
+        style: TextStyle(color: textColor),
+        keyboardType: widget.textType ?? TextInputType.visiblePassword,
         validator: (value) {
           if (value == null || value.isEmpty) return 'Campo obrigatório';
           if (value.length < 6) return 'A senha deve ter no mínimo 6 caracteres';
           return null;
         },
         decoration: InputDecoration(
-          labelText: widget.labelText,
-          labelStyle: TextStyle(color: widget.labelColor ?? Colors.black),
+          floatingLabelBehavior: FloatingLabelBehavior.auto,
+          labelText: widget.hint,
+          labelStyle: TextStyle(
+            color: hintColor.withOpacity(0.8),
+          ),
+          floatingLabelStyle: TextStyle(
+            color: labelColor,
+            fontWeight: FontWeight.bold,
+          ),
           enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: widget.borderColor ?? Theme.of(context).primaryColor),
+            borderSide: BorderSide(color: borderColor, width: 1),
             borderRadius: BorderRadius.circular(8),
           ),
-          border: OutlineInputBorder(
-            borderSide: BorderSide(color: widget.borderColor ?? Theme.of(context).primaryColor),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: borderColor, width: 2),
             borderRadius: BorderRadius.circular(8),
           ),
           filled: true,
-          hintStyle: TextStyle(color: widget.hintColor ?? Colors.grey[500]),
+          fillColor: widget.fillColor ?? Colors.transparent,
+          hintStyle: TextStyle(color: hintColor.withOpacity(0.6)),
           hintText: widget.hint,
-          fillColor: widget.fillColor ?? Colors.white,
           prefixIcon: widget.icon != null
-              ? Icon(widget.icon, color: widget.iconColor ?? Colors.grey[500], size: width * 0.06)
+              ? Icon(widget.icon, color: iconColor, size: width * 0.06)
               : null,
-          suffixIcon: IconButton(
-            icon: Icon(showPassword ? Icons.visibility : Icons.visibility_off),
+          suffixIcon: widget.security == true
+              ? IconButton(
+            icon: Icon(showPassword ? Icons.visibility : Icons.visibility_off, color: iconColor),
             onPressed: () => setState(() => showPassword = !showPassword),
-          ),
+          )
+              : null,
           contentPadding: EdgeInsets.symmetric(horizontal: width * 0.02),
         ),
       ),

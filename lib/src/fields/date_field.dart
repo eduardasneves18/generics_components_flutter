@@ -1,6 +1,3 @@
-import 'dart:ui';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -23,8 +20,9 @@ class DateField extends StatefulWidget {
   const DateField({
     Key? key,
     required this.sizeScreen,
-    this.icon,
     required this.hint,
+    required this.controller,
+    this.icon,
     this.iconColor,
     this.hintColor,
     this.fillColor,
@@ -34,17 +32,14 @@ class DateField extends StatefulWidget {
     this.textColor,
     this.labelText,
     this.labelColor,
-    required this.controller,
     this.onDateSelected,
   }) : super(key: key);
 
   @override
-  _DateFieldState createState() => _DateFieldState();
+  State<DateField> createState() => _DateFieldState();
 }
 
 class _DateFieldState extends State<DateField> {
-  TextEditingController get controller => widget.controller;
-
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -53,62 +48,57 @@ class _DateFieldState extends State<DateField> {
       lastDate: DateTime(2101),
     );
     if (picked != null) {
-      controller.text = DateFormat('dd/MM/yyyy').format(picked);
-      if (widget.onDateSelected != null) {
-        widget.onDateSelected!(picked);
-      }
+      widget.controller.text = DateFormat('dd/MM/yyyy').format(picked);
+      widget.onDateSelected?.call(picked);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final widthScreen = widget.sizeScreen.width;
-    final Color _borderColor = widget.borderColor ?? Theme.of(context).primaryColor;
-    final Color? textColor = widget.textColor ?? Theme.of(context).primaryColor;
-    final Color? cursorColor = widget.cursorColor ?? Theme.of(context).primaryColor;
-    final TextInputType keyboardType = widget.textType ?? TextInputType.datetime;
-    final TextStyle hintStyle = TextStyle(color: widget.hintColor ?? Colors.grey[500]);
-    final Color? iconColor = widget.iconColor ?? Colors.grey[500];
+    final width = widget.sizeScreen.width;
+
+    final Color borderColor = widget.borderColor ?? Theme.of(context).primaryColor;
+    final Color textColor = widget.textColor ?? Theme.of(context).primaryColor;
+    final Color hintColor = widget.hintColor ?? Colors.grey;
+    final Color iconColor = widget.iconColor ?? Colors.grey;
+    final Color fillColor = widget.fillColor ?? Colors.white;
+    final Color cursorColor = widget.cursorColor ?? Theme.of(context).primaryColor;
 
     return Container(
-      height: widthScreen * 0.14,
-      margin: EdgeInsets.symmetric(
-        horizontal: widthScreen * 0.03,
-        vertical: widthScreen * 0.03,
-      ),
+      height: width * 0.14,
+      margin: EdgeInsets.symmetric(horizontal: width * 0.03, vertical: width * 0.03),
       child: TextFormField(
-        controller: controller,
+        controller: widget.controller,
         autofocus: false,
-        style: TextStyle(color: textColor),
-        enableInteractiveSelection: true,
-        cursorColor: cursorColor,
-        keyboardType: keyboardType,
         readOnly: true,
         onTap: () => _selectDate(context),
+        keyboardType: widget.textType ?? TextInputType.datetime,
+        cursorColor: cursorColor,
+        style: TextStyle(color: textColor),
         decoration: InputDecoration(
           labelText: widget.labelText,
           labelStyle: TextStyle(color: widget.labelColor ?? Colors.black),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: _borderColor, width: 1),
-            borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-          ),
-          border: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.white),
-            borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-          ),
-          filled: true,
-          hintStyle: hintStyle,
           hintText: widget.hint,
-          fillColor: widget.fillColor ?? Colors.white,
+          hintStyle: TextStyle(color: hintColor.withOpacity(0.6)),
+          filled: true,
+          fillColor: fillColor,
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: borderColor, width: 1),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: borderColor, width: 2),
+            borderRadius: BorderRadius.circular(8),
+          ),
           prefixIcon: widget.icon != null
-              ? Icon(widget.icon, color: iconColor, size: widthScreen * 0.06)
+              ? Icon(widget.icon, color: iconColor, size: width * 0.06)
               : null,
           suffixIcon: IconButton(
             icon: Icon(Icons.calendar_month),
             color: iconColor,
             onPressed: () => _selectDate(context),
           ),
-          contentPadding: EdgeInsets.symmetric(horizontal: widthScreen * 0.02),
+          contentPadding: EdgeInsets.symmetric(horizontal: width * 0.02),
         ),
       ),
     );

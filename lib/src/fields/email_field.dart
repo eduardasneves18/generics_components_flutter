@@ -13,7 +13,6 @@ class EmailField extends StatefulWidget {
   final Color? cursorColor;
   final Color? borderColor;
   final Color? textColor;
-  final String? labelText;
   final Color? labelColor;
   final TextEditingController controller;
 
@@ -30,7 +29,6 @@ class EmailField extends StatefulWidget {
     this.cursorColor,
     this.borderColor,
     this.textColor,
-    this.labelText,
     this.labelColor,
     required this.controller,
   }) : super(key: key);
@@ -42,71 +40,72 @@ class EmailField extends StatefulWidget {
 class _EmailFieldState extends State<EmailField> {
   bool showSecurityPassword = true;
 
+  @override
   Widget build(BuildContext context) {
-    final _widthScreen = widget.sizeScreen.width;
-    final Color _borderColor = widget.borderColor ?? Theme.of(context).primaryColor;
-    final Color? _textColor = widget.textColor ?? Theme.of(context).primaryColor;
-    final Color? _cursorColor = widget.cursorColor ?? Theme.of(context).primaryColor;
-
-    final TextInputType _keyboardType = TextInputType.emailAddress;
-    final TextStyle _hintStyle = TextStyle(color: widget.hintColor ?? Colors.grey[500]);
-    final Color? _iconColor = widget.iconColor ?? Colors.grey[500];
+    final double width = widget.sizeScreen.width;
+    final Color borderColor = widget.borderColor ?? Theme.of(context).primaryColor;
+    final Color textColor = widget.textColor ?? Theme.of(context).primaryColor;
+    final Color cursorColor = widget.cursorColor ?? Theme.of(context).primaryColor;
+    final Color? iconColor = widget.iconColor ?? Colors.grey[500];
+    final Color labelColor = widget.labelColor ?? Colors.green;
+    final Color hintColor = widget.hintColor ?? Colors.grey;
 
     return Container(
-      height: _widthScreen * 0.14,
+      height: width * 0.14,
       margin: EdgeInsets.symmetric(
-        horizontal: _widthScreen * 0.03,
-        vertical: _widthScreen * 0.03,
+        horizontal: width * 0.03,
+        vertical: width * 0.03,
       ),
       child: TextFormField(
         controller: widget.controller,
         autofocus: false,
-        style: TextStyle(color: _textColor),
+        style: TextStyle(color: textColor),
         enableInteractiveSelection: true,
-        cursorColor: _cursorColor,
-        keyboardType: _keyboardType,
+        cursorColor: cursorColor,
+        keyboardType: widget.textType ?? TextInputType.emailAddress,
+        obscureText: widget.security == true && showSecurityPassword,
         decoration: InputDecoration(
-          labelText: widget.labelText,
-          labelStyle: TextStyle(color: widget.labelColor ?? Colors.black),
+          floatingLabelBehavior: FloatingLabelBehavior.auto,
+          labelText: widget.hint,
+          labelStyle: TextStyle(
+            color: hintColor.withOpacity(0.8),
+          ),
+          floatingLabelStyle: TextStyle(
+            color: labelColor,
+            fontWeight: FontWeight.bold,
+          ),
           enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: _borderColor,
-              width: (1),
-            ),
+            borderSide: BorderSide(color: borderColor, width: 1),
             borderRadius: const BorderRadius.all(Radius.circular(8.0)),
           ),
-          border: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: _borderColor,
-            ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: borderColor, width: 2),
             borderRadius: const BorderRadius.all(Radius.circular(8.0)),
           ),
           filled: true,
-          hintStyle: _hintStyle,
-          hintText: widget.hint,
-          fillColor: widget.fillColor ?? Colors.white,
+          fillColor: widget.fillColor ?? Colors.transparent,
+          hintStyle: TextStyle(color: hintColor.withOpacity(0.6)),
           prefixIcon: widget.icon != null
-              ? Icon(widget.icon, color: _iconColor, size: _widthScreen * 0.06)
+              ? Icon(widget.icon, color: iconColor, size: width * 0.06)
               : null,
           suffixIcon: widget.security != true
               ? null
               : IconButton(
-              color: widget.iconColor,
-              icon: Icon(getIconSecury()),
-              onPressed: () {
-                setState(() {
-                  showSecurityPassword = !showSecurityPassword;
-                });
-              }),
-          contentPadding: EdgeInsets.symmetric(horizontal: _widthScreen * 0.02),
+            icon: Icon(getIconSecury(), color: iconColor),
+            onPressed: () {
+              setState(() {
+                showSecurityPassword = !showSecurityPassword;
+              });
+            },
+          ),
+          contentPadding: EdgeInsets.symmetric(horizontal: width * 0.02),
         ),
-        obscureText: widget.security != null && showSecurityPassword,
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'Por favor, insira um email';
           }
-          String pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
-          RegExp regex = RegExp(pattern);
+          const pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
+          final regex = RegExp(pattern);
           if (!regex.hasMatch(value)) {
             return 'Por favor, insira um email válido';
           }

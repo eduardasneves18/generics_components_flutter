@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -13,10 +12,10 @@ class NumberField extends StatefulWidget {
   final Color? cursorColor;
   final Color? borderColor;
   final Color? textColor;
-  final String? labelText;
   final Color? labelColor;
   final TextEditingController controller;
-  final Function(String)? onChanged;
+  final ValueChanged<String>? onChanged;
+  final bool? readOnly;
 
   const NumberField({
     Key? key,
@@ -30,10 +29,10 @@ class NumberField extends StatefulWidget {
     this.cursorColor,
     this.borderColor,
     this.textColor,
-    this.labelText,
     this.labelColor,
     required this.controller,
     this.onChanged,
+    this.readOnly = false,
   }) : super(key: key);
 
   @override
@@ -41,59 +40,56 @@ class NumberField extends StatefulWidget {
 }
 
 class _NumberFieldState extends State<NumberField> {
-  TextEditingController get controller => widget.controller;
-
   @override
   Widget build(BuildContext context) {
-    final _widthScreen = widget.sizeScreen.width;
-    final Color _borderColor = widget.borderColor ?? Theme.of(context).primaryColor;
-    final Color? _textColor = widget.textColor ?? Theme.of(context).primaryColor;
-    final Color? _cursorColor = widget.cursorColor ?? Theme.of(context).primaryColor;
-
-    final TextInputType _keyboardType = widget.textType ?? TextInputType.number;
-    final TextStyle _hintStyle = TextStyle(color: widget.hintColor ?? Colors.grey[500]);
-    final Color? _iconColor = widget.iconColor ?? Colors.grey[500];
+    final double width = widget.sizeScreen.width;
+    final Color borderColor = widget.borderColor ?? Theme.of(context).primaryColor;
+    final Color textColor = widget.textColor ?? Theme.of(context).primaryColor;
+    final Color cursorColor = widget.cursorColor ?? Theme.of(context).primaryColor;
+    final TextInputType keyboardType = widget.textType ?? TextInputType.number;
+    final Color? iconColor = widget.iconColor ?? Colors.grey[500];
+    final Color labelColor = widget.labelColor ?? Colors.green;
+    final Color hintColor = widget.hintColor ?? Colors.grey;
 
     return Container(
-      height: _widthScreen * 0.14,
+      height: width * 0.14,
       margin: EdgeInsets.symmetric(
-        horizontal: _widthScreen * 0.03,
-        vertical: _widthScreen * 0.03,
+        horizontal: width * 0.03,
+        vertical: width * 0.03,
       ),
       child: TextFormField(
-        controller: controller,
-        autofocus: false,
-        style: TextStyle(color: _textColor),
-        enableInteractiveSelection: true,
-        cursorColor: _cursorColor,
-        keyboardType: _keyboardType,
+        controller: widget.controller,
+        style: TextStyle(color: textColor),
+        cursorColor: cursorColor,
+        keyboardType: keyboardType,
+        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+        onChanged: widget.onChanged,
+        readOnly: widget.readOnly ?? false,
         decoration: InputDecoration(
-          labelText: widget.labelText,
-          labelStyle: TextStyle(color: widget.labelColor ?? Colors.black),
+          floatingLabelBehavior: FloatingLabelBehavior.auto,
+          labelText: widget.hint,
+          labelStyle: TextStyle(
+            color: hintColor.withOpacity(0.8),
+          ),
+          floatingLabelStyle: TextStyle(
+            color: labelColor,
+            fontWeight: FontWeight.bold,
+          ),
           enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: _borderColor,
-              width: (1),
-            ),
+            borderSide: BorderSide(color: borderColor, width: 1),
             borderRadius: const BorderRadius.all(Radius.circular(8.0)),
           ),
-          border: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.white),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: borderColor, width: 2),
             borderRadius: const BorderRadius.all(Radius.circular(8.0)),
           ),
           filled: true,
-          hintStyle: _hintStyle,
-          hintText: widget.hint,
-          fillColor: widget.fillColor ?? Colors.white,
+          fillColor: widget.fillColor ?? Colors.transparent,
           prefixIcon: widget.icon != null
-              ? Icon(widget.icon, color: _iconColor, size: _widthScreen * 0.06)
+              ? Icon(widget.icon, color: iconColor, size: width * 0.06)
               : null,
-          contentPadding: EdgeInsets.symmetric(horizontal: _widthScreen * 0.02),
+          contentPadding: EdgeInsets.symmetric(horizontal: width * 0.02),
         ),
-        inputFormatters: [
-          FilteringTextInputFormatter.digitsOnly,
-        ],
-        onChanged: widget.onChanged,
       ),
     );
   }
