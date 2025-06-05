@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class TextFields extends StatefulWidget {
@@ -42,52 +41,47 @@ class TextFields extends StatefulWidget {
 }
 
 class _TextFieldsState extends State<TextFields> {
-  bool showSecurityPassword = true;
-
   @override
   Widget build(BuildContext context) {
-    final _widthScreen = widget.sizeScreen.width;
-    final Color _borderColor = widget.borderColor ?? Theme.of(context).primaryColor;
-    final Color? _textColor = widget.textColor ?? Theme.of(context).primaryColor;
-    final Color? _cursorColor = widget.cursorColor ?? Theme.of(context).primaryColor;
-    final TextInputType? _keyboardType = widget.textType ?? TextInputType.text;
-    final TextStyle _hintStyle = TextStyle(color: widget.hintColor ?? Colors.grey[500]);
-    final Color? _iconColor = widget.iconColor ?? Colors.grey[500];
+    final double width = widget.sizeScreen.width;
+    final Color borderColor = widget.borderColor ?? Theme.of(context).primaryColor;
+    final Color textColor = widget.textColor ?? Theme.of(context).primaryColor;
+    final Color cursorColor = widget.cursorColor ?? Theme.of(context).primaryColor;
+    final TextInputType keyboardType = widget.textType ?? TextInputType.text;
+    final TextStyle hintStyle = TextStyle(color: widget.hintColor ?? Colors.grey[500]);
+    final Color? iconColor = widget.iconColor ?? Colors.grey[500];
 
     return Container(
-      height: _widthScreen * 0.14,
+      height: width * 0.14,
       margin: EdgeInsets.symmetric(
-        horizontal: _widthScreen * 0.03,
-        vertical: _widthScreen * 0.03,
+        horizontal: width * 0.03,
+        vertical: width * 0.03,
       ),
       child: TextFormField(
         controller: widget.controller,
-        autofocus: false,
-        style: TextStyle(color: _textColor),
-        enableInteractiveSelection: true,
-        cursorColor: _cursorColor,
-        keyboardType: _keyboardType,
+        style: TextStyle(color: textColor),
+        cursorColor: cursorColor,
+        keyboardType: keyboardType,
         onChanged: widget.onChanged,
+        obscureText: widget.security ?? false,
         decoration: InputDecoration(
-          labelText: widget.labelText,
-          labelStyle: TextStyle(color: widget.labelColor ?? Colors.black),
+          floatingLabelBehavior: FloatingLabelBehavior.auto, // <- ESSENCIAL
+          labelText: widget.hint, // Usamos `hint` como `labelText`
+          labelStyle: TextStyle(
+            color: widget.labelColor ?? Colors.grey[500],
+          ),
           enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: _borderColor,
-              width: 1,
-            ),
+            borderSide: BorderSide(color: borderColor, width: 1),
             borderRadius: const BorderRadius.all(Radius.circular(8.0)),
           ),
-          border: OutlineInputBorder(
-            borderSide: BorderSide(color: _borderColor),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: borderColor, width: 2),
             borderRadius: const BorderRadius.all(Radius.circular(8.0)),
           ),
           filled: true,
-          hintStyle: _hintStyle,
-          hintText: widget.hint,
           fillColor: widget.fillColor ?? Colors.white,
           prefixIcon: widget.icon != null
-              ? Icon(widget.icon, color: _iconColor, size: _widthScreen * 0.06)
+              ? Icon(widget.icon, color: iconColor, size: width * 0.06)
               : null,
         ),
       ),
