@@ -4,16 +4,15 @@ class TextFields extends StatefulWidget {
   final Size sizeScreen;
   final IconData? icon;
   final Color? iconColor;
-  final String hint;
-  final Color? hintColor;
+  final String hint; // será usado como labelText
+  final Color? hintColor; // cor inicial da label (sem foco)
   final bool? security;
   final Color? fillColor;
   final TextInputType? textType;
   final Color? cursorColor;
   final Color? borderColor;
   final Color? textColor;
-  final String? labelText;
-  final Color? labelColor;
+  final Color? labelColor; // cor da label com foco
   final TextEditingController controller;
   final ValueChanged<String>? onChanged;
 
@@ -30,7 +29,6 @@ class TextFields extends StatefulWidget {
     this.cursorColor,
     this.borderColor,
     this.textColor,
-    this.labelText,
     this.labelColor,
     required this.controller,
     this.onChanged,
@@ -49,8 +47,8 @@ class _TextFieldsState extends State<TextFields> {
     final Color cursorColor = widget.cursorColor ?? Theme.of(context).primaryColor;
     final TextInputType keyboardType = widget.textType ?? TextInputType.text;
     final Color? iconColor = widget.iconColor ?? Colors.grey[500];
-    final Color labelColor = widget.labelColor ?? Colors.grey;
-    final Color hintColor = widget.hintColor ?? Colors.grey[500]!;
+    final Color labelColor = widget.labelColor ?? Colors.green;
+    final Color hintColor = widget.hintColor ?? Colors.grey;
 
     return Container(
       height: width * 0.14,
@@ -67,17 +65,13 @@ class _TextFieldsState extends State<TextFields> {
         obscureText: widget.security ?? false,
         decoration: InputDecoration(
           floatingLabelBehavior: FloatingLabelBehavior.auto,
-          labelText: widget.labelText ?? widget.hint,
+          labelText: widget.hint, // usa hint como labelText
           labelStyle: TextStyle(
-            color: labelColor.withOpacity(0.7),
+            color: hintColor.withOpacity(0.8), // cor quando NÃO está focado
           ),
           floatingLabelStyle: TextStyle(
-            color: labelColor,
+            color: labelColor, // cor quando está focado
             fontWeight: FontWeight.bold,
-          ),
-          hintText: widget.hint,
-          hintStyle: TextStyle(
-            color: hintColor,
           ),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: borderColor, width: 1),
@@ -88,7 +82,7 @@ class _TextFieldsState extends State<TextFields> {
             borderRadius: const BorderRadius.all(Radius.circular(8.0)),
           ),
           filled: true,
-          fillColor: widget.fillColor ?? Colors.white,
+          fillColor: widget.fillColor ?? Colors.transparent,
           prefixIcon: widget.icon != null
               ? Icon(widget.icon, color: iconColor, size: width * 0.06)
               : null,
