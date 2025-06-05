@@ -70,7 +70,10 @@ class _DropdownFieldState extends State<DropdownField> {
           hintStyle: TextStyle(color: hintColor),
           labelText: hasValue ? (widget.labelText ?? widget.hint) : null,
           labelStyle: TextStyle(color: labelColor),
-          floatingLabelStyle: TextStyle(color: labelColor, fontWeight: FontWeight.bold),
+          floatingLabelStyle: TextStyle(
+          color: labelColor,
+          fontWeight: FontWeight.bold,
+        ),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: borderColor, width: 1),
             borderRadius: BorderRadius.circular(8),
