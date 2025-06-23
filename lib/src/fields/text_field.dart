@@ -34,7 +34,7 @@ class TextFields extends StatefulWidget {
     this.labelColor,
     required this.controller,
     this.onChanged,
-    this.readOnly = false, // <-- ADICIONADO
+    this.readOnly = false,
   }) : super(key: key);
 
   @override
@@ -66,7 +66,7 @@ class _TextFieldsState extends State<TextFields> {
         keyboardType: keyboardType,
         onChanged: widget.onChanged,
         obscureText: widget.security ?? false,
-        readOnly: widget.readOnly, // <-- APLICADO
+        readOnly: widget.readOnly,
         decoration: InputDecoration(
           floatingLabelBehavior: FloatingLabelBehavior.auto,
           labelText: widget.hint,
