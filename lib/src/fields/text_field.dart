@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class TextFields extends StatefulWidget {
@@ -15,6 +16,7 @@ class TextFields extends StatefulWidget {
   final Color? labelColor;
   final TextEditingController controller;
   final ValueChanged<String>? onChanged;
+  final bool readOnly; // <-- ADICIONADO
 
   const TextFields({
     Key? key,
@@ -32,6 +34,7 @@ class TextFields extends StatefulWidget {
     this.labelColor,
     required this.controller,
     this.onChanged,
+    this.readOnly = false, // <-- ADICIONADO
   }) : super(key: key);
 
   @override
@@ -63,16 +66,12 @@ class _TextFieldsState extends State<TextFields> {
         keyboardType: keyboardType,
         onChanged: widget.onChanged,
         obscureText: widget.security ?? false,
+        readOnly: widget.readOnly, // <-- APLICADO
         decoration: InputDecoration(
           floatingLabelBehavior: FloatingLabelBehavior.auto,
-          labelText: widget.hint, // usa hint como labelText
-          labelStyle: TextStyle(
-            color: hintColor.withOpacity(0.8), // cor quando NÃO está focado
-          ),
-          floatingLabelStyle: TextStyle(
-            color: labelColor, // cor quando está focado
-            fontWeight: FontWeight.bold,
-          ),
+          labelText: widget.hint,
+          labelStyle: TextStyle(color: hintColor.withOpacity(0.8)),
+          floatingLabelStyle: TextStyle(color: labelColor, fontWeight: FontWeight.bold),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: borderColor, width: 1),
             borderRadius: const BorderRadius.all(Radius.circular(8.0)),
